@@ -9,6 +9,7 @@ import tensorflow as tf
 import model, sample, encoder
 
 def interact_model(
+    input_str = 'Hello World.',
     model_name='124M',
     seed=None,
     nsamples=1,
@@ -69,11 +70,10 @@ def interact_model(
         ckpt = tf.train.latest_checkpoint(os.path.join(models_dir, model_name))
         saver.restore(sess, ckpt)
 
-        while True:
-            raw_text = input("Model prompt >>> ")
-            while not raw_text:
-                print('Prompt should not be empty!')
-                raw_text = input("Model prompt >>> ")
+            raw_text = input_str
+            #while not raw_text:
+                #print('Prompt should not be empty!')
+                #raw_text = input("Model prompt >>> ")
             context_tokens = enc.encode(raw_text)
             generated = 0
             for _ in range(nsamples // batch_size):
@@ -83,9 +83,9 @@ def interact_model(
                 for i in range(batch_size):
                     generated += 1
                     text = enc.decode(out[i])
-                    print("=" * 40 + " SAMPLE " + str(generated) + " " + "=" * 40)
+                    print("GTP-2:" + str(generated) )
                     print(text)
-            print("=" * 80)
+        return text
 
 if __name__ == '__main__':
     fire.Fire(interact_model)
