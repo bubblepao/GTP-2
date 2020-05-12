@@ -70,21 +70,21 @@ def interact_model(
         ckpt = tf.train.latest_checkpoint(os.path.join(models_dir, model_name))
         saver.restore(sess, ckpt)
 
-            raw_text = input_str
+        raw_text = input_str
             #while not raw_text:
                 #print('Prompt should not be empty!')
                 #raw_text = input("Model prompt >>> ")
-            context_tokens = enc.encode(raw_text)
-            generated = 0
-            for _ in range(nsamples // batch_size):
-                out = sess.run(output, feed_dict={
-                    context: [context_tokens for _ in range(batch_size)]
+        context_tokens = enc.encode(raw_text)
+        generated = 0
+        for _ in range(nsamples // batch_size):
+            out = sess.run(output, feed_dict={
+                context: [context_tokens for _ in range(batch_size)]
                 })[:, len(context_tokens):]
-                for i in range(batch_size):
-                    generated += 1
-                    text = enc.decode(out[i])
-                    print("GTP-2:" + str(generated) )
-                    print(text)
+            for i in range(batch_size):
+                generated += 1
+                text = enc.decode(out[i])
+                print("GTP-2:" + str(generated) )
+                print(text)
         return text
 
 if __name__ == '__main__':
