@@ -83,7 +83,7 @@ def interact_model(
             for i in range(batch_size):
                 generated += 1
                 text = enc.decode(out[i])
-                print('GTP-2:' + text )
+                #print('GTP-2:' + text )
         return text
 
 if __name__ == '__main__':
